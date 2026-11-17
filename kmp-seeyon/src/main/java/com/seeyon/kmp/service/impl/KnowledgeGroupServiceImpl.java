@@ -123,7 +123,7 @@ public class KnowledgeGroupServiceImpl extends ServiceImpl<KnowledgeGroupMapper,
         try {
             log.info("开始更新知识组");
             if (knowledgeGroup.getId() == null || knowledgeGroup.getId() <= 0) {
-                log.error("知识组ID错误");
+                log.info("知识组ID错误");
                 throw new Exception("知识组ID错误");
             }
             // 更新知识组
@@ -135,6 +135,40 @@ public class KnowledgeGroupServiceImpl extends ServiceImpl<KnowledgeGroupMapper,
         } catch (Exception e) {
             throw new Exception("更新知识组失败", e);
         }
+    }
+
+    @Override
+    public AjaxResult delete(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            log.error("知识组ID错误: {}", id);
+            return AjaxResult.error("知识组ID错误");
+        }
+
+        long groupId;
+        try {
+            groupId = Long.parseLong(id.trim());
+        } catch (NumberFormatException e) {
+            log.error("知识组ID格式错误: {}", id, e);
+            return AjaxResult.error("知识组ID错误");
+        }
+
+        if (groupId <= 0) {
+            log.error("知识组ID错误: {}", id);
+            return AjaxResult.error("知识组ID错误");
+        }
+
+        LambdaUpdateWrapper<KnowledgeGroup> wrapper = new LambdaUpdateWrapper<KnowledgeGroup>()
+                .set(KnowledgeGroup::getIsDeleted, 1)
+                .eq(KnowledgeGroup::getId, groupId)
+                .eq(KnowledgeGroup::getIsDeleted, 0);
+
+        boolean update = update(wrapper);
+        log.info("删除知识组 id={}, 结果={}", groupId, update);
+
+        if (!update) {
+            return AjaxResult.error("删除失败：记录不存在或已删除");
+        }
+        return AjaxResult.success("删除成功!");
     }
 
 }

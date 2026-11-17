@@ -41,4 +41,12 @@ public interface KnowledgeGroupService extends IService<KnowledgeGroup> {
      * @return 操作结果
      */
     AjaxResult update(KnowledgeGroup knowledgeGroup);
+
+    /**
+     * 删除知识分类
+     *
+     * @param id 知识分类对象id
+     * @return 操作结果
+     */
+    AjaxResult delete(String id);
 }

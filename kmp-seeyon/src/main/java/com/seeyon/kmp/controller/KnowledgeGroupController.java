@@ -5,6 +5,7 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.seeyon.kmp.entity.KnowledgeGroup;
 import com.seeyon.kmp.service.KnowledgeGroupService;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +38,11 @@ public class KnowledgeGroupController extends BaseController {
     @PutMapping()
     public AjaxResult update(@RequestBody KnowledgeGroup knowledgeGroup) {
         return knowledgeGroupService.update(knowledgeGroup);
+    }
+
+    @Delete("{id}")
+    public AjaxResult update(@PathVariable String id) {
+        return knowledgeGroupService.delete(id);
     }
 
 }
