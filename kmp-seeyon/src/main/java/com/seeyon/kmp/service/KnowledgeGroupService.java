@@ -5,6 +5,8 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.seeyon.kmp.entity.KnowledgeGroup;
 
+import java.util.List;
+
 /**
  * kmp-parent
  * <p> File: KnowledgeGroupService.java </p>
@@ -49,4 +51,13 @@ public interface KnowledgeGroupService extends IService<KnowledgeGroup> {
      * @return 操作结果
      */
     AjaxResult delete(String id);
+
+    /**
+     * 根据id查询知识分类
+      * @param id 知识分类对象id
+      * @return 知识分类对象
+     */
+    AjaxResult get(String id);
+
+    List<KnowledgeGroup> getAllGroupOptions();
 }

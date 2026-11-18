@@ -29,6 +29,12 @@ public class KnowledgeGroupController extends BaseController {
         return knowledgeGroupService.list(pageNum, pageSize, knowledgeGroupName);
     }
 
+    @GetMapping("/{id}")
+    public AjaxResult get(@PathVariable String id) {
+        return knowledgeGroupService.get(id);
+    }
+
+
     @PostMapping()
     public AjaxResult add(@RequestBody KnowledgeGroup knowledgeGroup) {
         return knowledgeGroupService.add(knowledgeGroup);
@@ -42,6 +48,11 @@ public class KnowledgeGroupController extends BaseController {
     @DeleteMapping("/{id}")
     public AjaxResult delete(@PathVariable String id) {
         return knowledgeGroupService.delete(id);
+    }
+
+    @GetMapping("/groupOptions")
+    public AjaxResult getAllGroupOptions() {
+        return AjaxResult.success(knowledgeGroupService.getAllGroupOptions());
     }
 
 }

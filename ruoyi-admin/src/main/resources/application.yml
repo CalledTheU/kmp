@@ -173,7 +173,7 @@ xss:
 # 知识导入后台轮询配置
 kmp:
   # MinIO 对外可读端点，下载时与数据库中的对象路径拼接
-  minio-public-endpoint: http://localhost:9000
+  minio-public-endpoint: http://192.168.10.130:9000
 
   knowledge-import:
     poll-interval-ms: 5000
@@ -182,14 +182,14 @@ kmp:
 
   knowledge-system:
     # 外部切片服务地址由部署环境提供，留空时不影响列表和基础信息编辑
-    base-url: http://localhost:8000
+    base-url: http://192.168.10.130:8000
     connect-timeout: 3s
     read-timeout: 30s
 
 
   faq-search:
     # ES 仅保存问题簇 ID 和标准问题，凭据如有需要由部署侧统一注入
-    base-url: http://localhost:9200
+    base-url: http://192.168.10.130:9200
     index-name: kmp_faq_question
     connect-timeout: 3s
     read-timeout: 10s
@@ -206,7 +206,7 @@ kmp:
       max-length: 100000
     idempotent-lock-timeout: 30s
   milvus:
-    host: ${KMP_MILVUS_HOST:localhost}
+    host: ${KMP_MILVUS_HOST:192.168.10.130}
     port: ${KMP_MILVUS_PORT:19530}
     username: ${KMP_MILVUS_USERNAME:root}
     password: ${KMP_MILVUS_PASSWORD:milvus}
