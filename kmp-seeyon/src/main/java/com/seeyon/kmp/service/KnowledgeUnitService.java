@@ -3,6 +3,8 @@ package com.seeyon.kmp.service;
 import com.baomidou.mybatisplus.spring.service.IService;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.seeyon.kmp.dto.ExternalKnowledgeTaskStatus;
+import com.seeyon.kmp.entity.KnowledgeImportTask;
 import com.seeyon.kmp.entity.KnowledgeUnit;
 
 /**
@@ -47,4 +49,13 @@ public interface KnowledgeUnitService extends IService<KnowledgeUnit> {
      * @return 删除结果
      */
     AjaxResult deleteKnowledgeUnit(int id);
+
+    /**
+     * 创建知识单元。
+     *
+     * @param task 轮询时的导入任务
+     * @param externalStatus 外部完成态
+     * @return 知识单元 ID
+     */
+    Long createFromCompletedImport(KnowledgeImportTask task, ExternalKnowledgeTaskStatus externalStatus);
 }

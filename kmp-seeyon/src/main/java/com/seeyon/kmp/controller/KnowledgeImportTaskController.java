@@ -41,8 +41,8 @@ public class KnowledgeImportTaskController extends BaseController {
      * @param fileSha256 文件指纹SHA-256
      * @return 匹配结果(或未查到)
      */
-    @GetMapping("/duplicate-check/{fileSha256}")
-    public AjaxResult duplicateCheck(@PathVariable String fileSha256) {
+    @GetMapping("/duplicate-check")
+    public AjaxResult duplicateCheck(@RequestParam String fileSha256) {
         return knowledgeImportTaskService.checkByFileSha256(fileSha256);
     }
 
@@ -54,5 +54,15 @@ public class KnowledgeImportTaskController extends BaseController {
     @PostMapping("/init")
     public AjaxResult init(@RequestBody KnowledgeImportTask knowledgeImportTask) {
         return knowledgeImportTaskService.init(knowledgeImportTask);
+    }
+
+    /**
+     * 绑定外部任务编号
+     * @param id 任务ID
+     * @return AjaxResult
+     */
+    @PutMapping("/{id}/external-task")
+    public AjaxResult bindExternalTask(@PathVariable Long id, @RequestBody KnowledgeImportTask externalTaskId) {
+        return knowledgeImportTaskService.bindExternalTask(id,externalTaskId);
     }
 }

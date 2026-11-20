@@ -10,7 +10,9 @@ import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.system.mapper.SysUserMapper;
+import com.seeyon.kmp.dto.ExternalKnowledgeTaskStatus;
 import com.seeyon.kmp.entity.KnowledgeGroup;
+import com.seeyon.kmp.entity.KnowledgeImportTask;
 import com.seeyon.kmp.entity.KnowledgeUnit;
 import com.seeyon.kmp.mapper.KnowledgeGroupMapper;
 import com.seeyon.kmp.mapper.KnowledgeUnitMapper;
@@ -153,6 +155,29 @@ public class KnowledgeUnitServiceImpl  extends ServiceImpl<KnowledgeUnitMapper, 
             return AjaxResult.error("删除失败!");
         }
 
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Long createFromCompletedImport(KnowledgeImportTask task, ExternalKnowledgeTaskStatus externalStatus)
+    {
+        ExternalKnowledgeTaskStatus.Result result = externalStatus.getResult();
+
+        KnowledgeUnit knowledgeUnit = new KnowledgeUnit();
+        knowledgeUnit.setDocumentId(result.getDocumentId());
+        knowledgeUnit.setKnowledgeGroupId(task.getKnowledgeGroupId());
+        knowledgeUnit.setKnowledgeUnitName(result.getItemName());
+        knowledgeUnit.setOriginalFileName(task.getFileName());
+        knowledgeUnit.setFileSha256(result.getFileSha256());
+        knowledgeUnit.setOriginalFileDownloadUrl(result.getOriginalFileDownloadUrl());
+        knowledgeUnit.setChunkCount(result.getChunkCount());
+        knowledgeUnit.setTotalTextLength(result.getTotalTextLength());
+        knowledgeUnit.setCreateUserId(task.getCreateUserId());
+        knowledgeUnit.setCreateTime(LocalDateTime.now());
+        knowledgeUnit.setIsDeleted(0);
+
+        this.save(knowledgeUnit);
+        return knowledgeUnit.getId();
     }
 
 }

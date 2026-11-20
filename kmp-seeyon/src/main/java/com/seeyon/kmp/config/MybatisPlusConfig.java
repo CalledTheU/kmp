@@ -6,9 +6,11 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootConfiguration
 @MapperScan("com.seeyon.kmp.mapper")
+@EnableScheduling//开启定时任务
 public class MybatisPlusConfig {
 
     @Bean

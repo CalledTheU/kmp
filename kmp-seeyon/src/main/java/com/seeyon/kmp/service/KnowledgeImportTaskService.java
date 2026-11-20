@@ -31,5 +31,23 @@ public interface KnowledgeImportTaskService extends IService<KnowledgeImportTask
      */
     AjaxResult checkByFileSha256(String fileSha256);
 
+    /**
+     * 初始化知识导入任务
+     * @param knowledgeImportTask 知识导入任务
+     * @return AjaxResult
+     */
     AjaxResult init(KnowledgeImportTask knowledgeImportTask);
+
+    /**
+     * 绑定外部任务
+     * @param id 知识导入任务ID
+     * @param externalTaskId 外部任务ID
+     * @return AjaxResult
+     */
+    AjaxResult bindExternalTask(Long id, KnowledgeImportTask externalTaskId);
+
+    /**
+     * 定时轮询处理中的任务状态
+     */
+    void pollProcessingTasks();
 }

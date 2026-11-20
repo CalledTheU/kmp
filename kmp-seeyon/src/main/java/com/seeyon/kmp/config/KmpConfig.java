@@ -1,0 +1,61 @@
+package com.seeyon.kmp.config;
+
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.web.client.RestClient;
+
+import java.time.Duration;
+
+/**
+ * kmp-parent
+ * <p> File: KmpConfig.java </p>
+ * <p> Description:  (配置类)</p>
+ * <p> Date: 2026/11/20 19:39</p>
+ *
+ * @author wangLei
+ * @version 1.0 （代码版本）
+ * @since jdk17（jdk版本）
+ */
+@Data
+@SpringBootConfiguration
+public class KmpConfig {
+    @Value("${kmp.knowledge-import.poll-interval-ms:5000}")
+    private long knowledgeImportPollIntervalMs;
+
+    @Value("${kmp.knowledge-import.batch-size:100}")
+    private int knowledgeImportBatchSize;
+
+    @Value("${kmp.knowledge-import.pending-expire-minutes:30}")
+    private long knowledgeImportPendingExpireMinutes;
+
+
+    @Value("${kmp.knowledge-system.base-url}")
+    private String knowledgeSystemBaseUrl;
+
+    @Value("${kmp.knowledge-system.connect-timeout}")
+    private Duration knowledgeSystemConnectTimeout;
+
+    @Value("${kmp.knowledge-system.read-timeout}")
+    private Duration knowledgeSystemReadTimeout;
+
+    /**
+     * RestClient客户端：调用知识库接口
+     *
+     * @return RestClient
+     */
+    @Bean("knowledgeSystemRestClient")
+    public RestClient knowledgeSystemRestClient() {
+        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+        requestFactory.setConnectTimeout(knowledgeSystemConnectTimeout);
+        requestFactory.setReadTimeout(knowledgeSystemReadTimeout);
+
+        return RestClient
+                .builder()
+                .requestFactory(requestFactory)
+                .baseUrl(knowledgeSystemBaseUrl)
+                .build();
+    }
+}
